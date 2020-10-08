@@ -1,0 +1,10 @@
+@import 'ui-framework/ui';
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $footer-height;
+    background-color: $dark;
+    color: #fff;
+}

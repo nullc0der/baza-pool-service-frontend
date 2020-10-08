@@ -1,0 +1,56 @@
+@import 'ui-framework/ui';
+
+.container {
+    :global {
+        .session-header,
+        .date-and-search,
+        .tokens {
+            padding: 2rem 0;
+        }
+        .session-header {
+            text-align: center;
+        }
+        .date-and-search {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            p {
+                margin-bottom: 0;
+            }
+            .coin-search {
+                width: 500px;
+            }
+        }
+        .token {
+            border: 1px solid $dark;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+        }
+    }
+}
+
+.votingModal {
+    :global {
+        .payment-address {
+            padding: 1rem 0.5rem;
+            background-color: #f1f1f1;
+            word-break: break-all;
+        }
+    }
+}
+
+:global {
+    :local(.container) {
+        &.no-voting-session {
+            position: absolute;
+            top: $header-height;
+            bottom: $footer-height;
+            left: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

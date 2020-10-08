@@ -1,0 +1,37 @@
+@import 'ui-framework/ui';
+
+.container {
+    :global {
+        .pool {
+            width: 300px;
+            min-height: 300px;
+            border: 1px solid $dark;
+            background-color: #fff;
+            &:hover {
+                @include _shadow_2();
+            }
+            .pool-header {
+                display: flex;
+                background-color: $dark;
+                align-items: center;
+                color: #fff;
+                padding: 0.5rem;
+                img {
+                    width: 40px;
+                }
+                h6 {
+                    margin-bottom: 0;
+                }
+            }
+            .pool-info {
+                padding: 1rem;
+                a {
+                    color: $dark;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+}
