@@ -69,18 +69,16 @@ class Voting extends React.Component {
                 {!isEmpty(currentSession) ? (
                     <>
                         <div className="session-header">
-                            <h5>
-                                Vote using our baza token towards your favorite
-                                coin and we will host the winner.{' '}
-                            </h5>
+                            <h5>Vote for your favorite coin. </h5>
                             <p>{currentSession.description}</p>
                         </div>
                         <div className="date-and-search">
-                            <p className="voting-period">
+                            <p className="voting-period mb-1 mb-lg-0">
+                                From:{' '}
                                 {moment(currentSession.start_date).format(
                                     'M/YY'
                                 )}{' '}
-                                -{' '}
+                                To:{' '}
                                 {moment(currentSession.end_date).format('M/YY')}
                             </p>
                             <TextInput
@@ -91,14 +89,14 @@ class Voting extends React.Component {
                                 value={inputState.coinSearch}
                                 onChange={this.onInputChange}
                             />
-                            <p className="session-end">
+                            <p className="session-end mb-1 mb-lg-0">
                                 Ends {moment(currentSession.end_date).fromNow()}
                             </p>
                         </div>
                         <div className="tokens">
                             {tokens.map((x, i) => (
                                 <div
-                                    className="token align-items-center d-flex"
+                                    className="token"
                                     key={i}
                                     onClick={() => this.selectToken(x)}>
                                     <img
@@ -123,17 +121,19 @@ class Voting extends React.Component {
                                         </a>
                                     </span>
                                     <span className="mr-2">{x.symbol}</span>
-                                    <span className="mr-2">{x.algo}</span>
+                                    <span className="mr-2 d-none d-lg-inline">
+                                        {x.algo}
+                                    </span>
                                     <span className="flex-1" />
                                     {x.won_date && (
-                                        <span>
+                                        <span className="d-none d-lg-inline">
                                             {moment(x.won_date).format(
                                                 'DD/MM/YYYY'
                                             )}
                                         </span>
                                     )}
                                     {x.added_date && (
-                                        <span>
+                                        <span className="d-none d-lg-inline">
                                             {moment(x.added_date).format(
                                                 'DD/MM/YYYY'
                                             )}
@@ -146,6 +146,7 @@ class Voting extends React.Component {
                             votingModalIsOpen={!isEmpty(selectedToken)}
                             closeVotingModal={() => this.selectToken({})}
                             selectedToken={selectedToken}
+                            isSessionPaused={currentSession.is_paused}
                         />
                     </>
                 ) : (

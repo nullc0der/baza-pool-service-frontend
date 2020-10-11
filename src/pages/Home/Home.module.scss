@@ -7,8 +7,13 @@
             min-height: 300px;
             border: 1px solid $dark;
             background-color: #fff;
+            border-radius: 3px;
             &:hover {
                 @include _shadow_2();
+            }
+            @include media-breakpoint-down(md) {
+                width: 250px;
+                min-height: 250px;
             }
             .pool-header {
                 display: flex;

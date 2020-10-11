@@ -30,7 +30,9 @@ class Header extends React.Component {
                             className="img-fluid"
                             alt="Pool Service Logo"
                         />
-                        <span>Baza Pool Service</span>
+                        <span className="d-none d-lg-inline">
+                            Baza Pool Service
+                        </span>
                     </Link>
                 </div>
                 <div className="flex-1" />

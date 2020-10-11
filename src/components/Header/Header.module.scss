@@ -6,6 +6,11 @@
     height: $header-height;
     overflow: hidden;
     @include _shadow_1();
+    padding: 0 2rem;
+
+    @include media-breakpoint-down(md) {
+        padding: 0 1rem;
+    }
 
     :global {
         a {
@@ -16,18 +21,27 @@
             }
         }
         .logo-wrapper {
-            padding: 0 2rem;
             img {
                 width: 50px;
                 margin-right: 0.5rem;
             }
+            @include media-breakpoint-down(md) {
+                img {
+                    width: 40px;
+                }
+            }
         }
         .menu {
-            margin-right: 0.5rem;
             padding: 2rem;
             &.active {
                 background-color: $dark;
                 color: #fff;
+            }
+            &:not(:last-child) {
+                margin-right: 0.5rem;
+            }
+            @include media-breakpoint-down(md) {
+                padding: 2rem 0.5rem;
             }
         }
     }
