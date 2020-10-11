@@ -101,52 +101,65 @@ class VotingModal extends React.Component {
                 <Modal.Body>
                     {!isSessionPaused ? (
                         !votingSuccess ? (
-                            <>
-                                <p>
-                                    Send BAZA to the address mentioned below,
-                                    then add the transaction hash below and
-                                    submit
-                                </p>
-                                <p className="payment-address">
-                                    {votingAddress}
-                                </p>
-                                <TextInput
-                                    id="txHash"
-                                    label="Transaction Hash"
-                                    className="my-2"
-                                    value={inputState.txHash}
-                                    onChange={this.onInputChange}
-                                    errorState={errorState.txHash}
-                                />
-                                {!!errorState.nonField && (
-                                    <div className="alert alert-danger">
-                                        {errorState.nonField.map((x, i) => (
-                                            <p
-                                                className={`${
-                                                    i === 0 ? 'mb-0' : ''
-                                                }`}
-                                                key={i}>
-                                                {x}
-                                            </p>
-                                        ))}
+                            !selectedToken.is_archived ? (
+                                <>
+                                    <p>
+                                        Send BAZA to the address mentioned
+                                        below, then add the transaction hash
+                                        below and submit
+                                    </p>
+                                    <p className="payment-address">
+                                        {votingAddress}
+                                    </p>
+                                    <TextInput
+                                        id="txHash"
+                                        label="Transaction Hash"
+                                        className="my-2"
+                                        value={inputState.txHash}
+                                        onChange={this.onInputChange}
+                                        errorState={errorState.txHash}
+                                    />
+                                    {!!errorState.nonField && (
+                                        <div className="alert alert-danger">
+                                            {errorState.nonField.map((x, i) => (
+                                                <p
+                                                    className={`${
+                                                        i === 0 ? 'mb-0' : ''
+                                                    }`}
+                                                    key={i}>
+                                                    {x}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <div className="d-flex">
+                                        <div className="flex-1" />
+                                        <button
+                                            className="btn btn-dark mr-2"
+                                            onClick={
+                                                this.cleanUpVotingModalAndClose
+                                            }>
+                                            Cancel
+                                        </button>
+                                        <button
+                                            className="btn btn-dark"
+                                            onClick={this.onClickSubmit}>
+                                            Submit
+                                        </button>
                                     </div>
-                                )}
-                                <div className="d-flex">
-                                    <div className="flex-1" />
-                                    <button
-                                        className="btn btn-dark mr-2"
-                                        onClick={
-                                            this.cleanUpVotingModalAndClose
-                                        }>
-                                        Cancel
-                                    </button>
-                                    <button
-                                        className="btn btn-dark"
-                                        onClick={this.onClickSubmit}>
-                                        Submit
-                                    </button>
-                                </div>
-                            </>
+                                </>
+                            ) : (
+                                <p>
+                                    This token is archived, please contact
+                                    support for further information{' '}
+                                    <a
+                                        href="http://t.me/bazafoundation"
+                                        target="_blank"
+                                        rel="noopener noreferrer">
+                                        http://t.me/bazafoundation.
+                                    </a>
+                                </p>
+                            )
                         ) : (
                             <p>Thank you for voting for {selectedToken.name}</p>
                         )
