@@ -21,7 +21,6 @@ const INITIAL_STATE = {
     },
 }
 
-//TODO: Clean up modal on close(maybe others too), tx_hash error is not showing
 class VotingModal extends React.Component {
     state = {
         ...INITIAL_STATE,

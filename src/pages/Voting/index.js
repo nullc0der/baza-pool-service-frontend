@@ -124,6 +124,11 @@ class Voting extends React.Component {
                                     <span className="mr-2 d-none d-lg-inline">
                                         {x.algo}
                                     </span>
+                                    <span
+                                        className="mr-2 d-none d-lg-inline"
+                                        title="Total Votes">
+                                        {x.total_votes}
+                                    </span>
                                     <span className="flex-1" />
                                     {x.won_date && (
                                         <span className="d-none d-lg-inline">
