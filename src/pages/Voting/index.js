@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
 import TextInput from 'components/TextInput'
+
 import { MatomoContext } from 'context/Matomo'
 
 import { getCurrentSession } from 'api/voting'
@@ -21,16 +22,24 @@ class Voting extends React.Component {
         },
         tokens: [],
         selectedToken: {},
+        fetchingSession: true,
     }
 
     componentDidMount() {
         setTimeout(() => this.context.trackPageView(), 2000)
-        getCurrentSession().then(response =>
-            this.setState({
-                currentSession: response.data,
-                tokens: response.data.tokens,
+        getCurrentSession()
+            .then(response =>
+                this.setState({
+                    currentSession: response.data,
+                    tokens: response.data.tokens,
+                    fetchingSession: false,
+                })
+            )
+            .catch(() => {
+                this.setState({
+                    fetchingSession: false,
+                })
             })
-        )
     }
 
     onInputChange = (id, value) => {
@@ -70,106 +79,132 @@ class Voting extends React.Component {
 
     render() {
         const { className } = this.props
-        const { currentSession, inputState, tokens, selectedToken } = this.state
+        const {
+            currentSession,
+            inputState,
+            tokens,
+            selectedToken,
+            fetchingSession,
+        } = this.state
         const cx = classnames(s.container, className, {
             'no-voting-session': isEmpty(currentSession),
         })
 
         return (
             <div className={cx}>
-                {!isEmpty(currentSession) ? (
-                    <>
-                        <div className="session-header">
-                            <h5>Vote for your favorite coin. </h5>
-                            <p>{currentSession.description}</p>
-                        </div>
-                        <div className="date-and-search">
-                            <p className="voting-period mb-1 mb-lg-0">
-                                From:{' '}
-                                {moment(currentSession.start_date).format(
-                                    'M/YY'
-                                )}{' '}
-                                To:{' '}
-                                {moment(currentSession.end_date).format('M/YY')}
-                            </p>
-                            <TextInput
-                                id="coinSearch"
-                                label="Search for a coin..."
-                                className="coin-search"
-                                icon={<i className="material-icons">search</i>}
-                                value={inputState.coinSearch}
-                                onChange={this.onInputChange}
-                            />
-                            <p className="session-end mb-1 mb-lg-0">
-                                Ends {moment(currentSession.end_date).fromNow()}
-                            </p>
-                        </div>
-                        <div className="tokens">
-                            {tokens.map((x, i) => (
-                                <div
-                                    className="token"
-                                    key={i}
-                                    onClick={() => this.selectToken(x)}>
-                                    <img
-                                        src={
-                                            process.env
-                                                .REACT_APP_DOCUMENT_ROOT +
-                                            x.logo
-                                        }
-                                        className="img-fluid mr-2"
-                                        style={{
-                                            width: '40px',
-                                        }}
-                                        alt="token logo"
-                                    />
-                                    <span className="mr-2">
-                                        <a
-                                            href={x.homepage_url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            onClick={e => e.stopPropagation()}>
-                                            {x.name}
-                                        </a>
-                                    </span>
-                                    <span className="mr-2">{x.symbol}</span>
-                                    <span className="mr-2 d-none d-lg-inline">
-                                        {x.algo}
-                                    </span>
-                                    <span
-                                        className="mr-2 d-none d-lg-inline"
-                                        title="Total Votes">
-                                        {x.total_votes}
-                                    </span>
+                {!fetchingSession ? (
+                    !isEmpty(currentSession) ? (
+                        <>
+                            <div className="session-header">
+                                <h5>Vote for your favorite coin. </h5>
+                                <p>{currentSession.description}</p>
+                            </div>
+                            <div className="date-and-search">
+                                <p className="voting-period mb-1 mb-lg-0">
+                                    From:{' '}
+                                    {moment(currentSession.start_date).format(
+                                        'M/YY'
+                                    )}{' '}
+                                    To:{' '}
+                                    {moment(currentSession.end_date).format(
+                                        'M/YY'
+                                    )}
+                                </p>
+                                <TextInput
+                                    id="coinSearch"
+                                    label="Search for a coin..."
+                                    className="coin-search"
+                                    icon={
+                                        <i className="material-icons">search</i>
+                                    }
+                                    value={inputState.coinSearch}
+                                    onChange={this.onInputChange}
+                                />
+                                <p className="session-end mb-1 mb-lg-0">
+                                    Ends{' '}
+                                    {moment(currentSession.end_date).fromNow()}
+                                </p>
+                            </div>
+                            <div className="tokens">
+                                <div className="token">
+                                    <span className="mr-2">Logo</span>
+                                    <span className="mr-2">Name</span>
+                                    <span className="mr-2">Symbol</span>
+                                    <span className="mr-2">Algo</span>
+                                    <span className="mr-2">Total Votes</span>
                                     <span className="flex-1" />
-                                    {x.won_date && (
-                                        <span className="d-none d-lg-inline">
-                                            {moment(x.won_date).format(
-                                                'DD/MM/YYYY'
-                                            )}
-                                        </span>
-                                    )}
-                                    {x.added_date && (
-                                        <span className="d-none d-lg-inline">
-                                            {moment(x.added_date).format(
-                                                'DD/MM/YYYY'
-                                            )}
-                                        </span>
-                                    )}
+                                    <span className="mr-2">Added Date</span>
                                 </div>
-                            ))}
-                        </div>
-                        <VotingModal
-                            votingModalIsOpen={!isEmpty(selectedToken)}
-                            closeVotingModal={() => this.selectToken({})}
-                            selectedToken={selectedToken}
-                            isSessionPaused={currentSession.is_paused}
-                        />
-                    </>
+                                {tokens.map((x, i) => (
+                                    <div
+                                        className="token"
+                                        key={i}
+                                        onClick={() => this.selectToken(x)}>
+                                        <img
+                                            src={
+                                                process.env
+                                                    .REACT_APP_DOCUMENT_ROOT +
+                                                x.logo
+                                            }
+                                            className="img-fluid mr-2"
+                                            style={{
+                                                width: '40px',
+                                            }}
+                                            alt="token logo"
+                                        />
+                                        <span className="mr-2">
+                                            <a
+                                                href={x.homepage_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={e =>
+                                                    e.stopPropagation()
+                                                }>
+                                                {x.name}
+                                            </a>
+                                        </span>
+                                        <span className="mr-2">{x.symbol}</span>
+                                        <span className="mr-2 d-none d-lg-inline">
+                                            {x.algo}
+                                        </span>
+                                        <span
+                                            className="mr-2 d-none d-lg-inline"
+                                            title="Total Votes">
+                                            {x.total_votes}
+                                        </span>
+                                        <span className="flex-1" />
+                                        {x.won_date && (
+                                            <span className="d-none d-lg-inline">
+                                                {moment(x.won_date).format(
+                                                    'DD/MM/YYYY'
+                                                )}
+                                            </span>
+                                        )}
+                                        {x.added_date && (
+                                            <span className="d-none d-lg-inline">
+                                                {moment(x.added_date).format(
+                                                    'DD/MM/YYYY'
+                                                )}
+                                            </span>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                            <VotingModal
+                                votingModalIsOpen={!isEmpty(selectedToken)}
+                                closeVotingModal={() => this.selectToken({})}
+                                selectedToken={selectedToken}
+                                isSessionPaused={currentSession.is_paused}
+                            />
+                        </>
+                    ) : (
+                        <h5 className="text-center">
+                            It seems no voting session is active now, check back
+                            later
+                        </h5>
+                    )
                 ) : (
-                    <h5 className="text-center">
-                        It seems no voting session is active now, check back
-                        later
-                    </h5>
+                    <i className="fas fa-spinner fa-spin fa-3x" />
                 )}
             </div>
         )
