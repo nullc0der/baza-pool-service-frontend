@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
 import TextInput from 'components/TextInput'
+import { MatomoContext } from 'context/Matomo'
 
 import { getCurrentSession } from 'api/voting'
 
@@ -11,6 +12,8 @@ import VotingModal from './VotingModal'
 import s from './Voting.module.scss'
 
 class Voting extends React.Component {
+    static contextType = MatomoContext
+
     state = {
         currentSession: {},
         inputState: {
@@ -21,6 +24,7 @@ class Voting extends React.Component {
     }
 
     componentDidMount() {
+        setTimeout(() => this.context.trackPageView(), 2000)
         getCurrentSession().then(response =>
             this.setState({
                 currentSession: response.data,
@@ -52,9 +56,16 @@ class Voting extends React.Component {
     }
 
     selectToken = selectedToken => {
-        this.setState({
-            selectedToken,
-        })
+        // this.context.trackEvent({
+        //     category: 'Dialog',
+        //     action: 'Click',
+        //     name: `Vote - ${selectedToken.name}`,
+        // })
+        // TODO: Remove after test
+        throw new Error('Sentry Test Landing')
+        // this.setState({
+        //     selectedToken,
+        // })
     }
 
     render() {

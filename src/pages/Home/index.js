@@ -2,17 +2,22 @@ import React from 'react'
 import classnames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 
+import { MatomoContext } from 'context/Matomo'
+
 import { getPoolStat, getPools } from 'api/poolStat'
 
 import s from './Home.module.scss'
 
 class Home extends React.Component {
+    static contextType = MatomoContext
+
     state = {
         pools: [],
         poolsStat: {},
     }
 
     componentDidMount() {
+        setTimeout(() => this.context.trackPageView(), 2000)
         getPools().then(response =>
             this.setState({ pools: response.data }, () => {
                 this.setPoolsStat()
