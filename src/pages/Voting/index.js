@@ -133,7 +133,7 @@ class Voting extends React.Component {
                                     <span className="mr-2">Algo</span>
                                     <span className="mr-2">Total Votes</span>
                                     <span className="flex-1" />
-                                    <span className="mr-2">Added Date</span>
+                                    <span>Added Date</span>
                                 </div>
                                 {tokens.map((x, i) => (
                                     <div
@@ -164,24 +164,22 @@ class Voting extends React.Component {
                                             </a>
                                         </span>
                                         <span className="mr-2">{x.symbol}</span>
-                                        <span className="mr-2 d-none d-lg-inline">
-                                            {x.algo}
-                                        </span>
+                                        <span className="mr-2">{x.algo}</span>
                                         <span
-                                            className="mr-2 d-none d-lg-inline"
+                                            className="mr-2"
                                             title="Total Votes">
                                             {x.total_votes}
                                         </span>
                                         <span className="flex-1" />
                                         {x.won_date && (
-                                            <span className="d-none d-lg-inline">
+                                            <span>
                                                 {moment(x.won_date).format(
                                                     'DD/MM/YYYY'
                                                 )}
                                             </span>
                                         )}
                                         {x.added_date && (
-                                            <span className="d-none d-lg-inline">
+                                            <span>
                                                 {moment(x.added_date).format(
                                                     'DD/MM/YYYY'
                                                 )}
