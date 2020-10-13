@@ -56,11 +56,13 @@ class Voting extends React.Component {
     }
 
     selectToken = selectedToken => {
-        this.context.trackEvent({
-            category: 'Dialog',
-            action: 'Click',
-            name: `Vote - ${selectedToken.name}`,
-        })
+        if (!isEmpty(selectedToken)) {
+            this.context.trackEvent({
+                category: 'Dialog',
+                action: 'Click',
+                name: `Vote - ${selectedToken.name}`,
+            })
+        }
         this.setState({
             selectedToken,
         })
