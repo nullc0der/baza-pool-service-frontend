@@ -160,7 +160,11 @@ class VotingModal extends React.Component {
                                 </p>
                             )
                         ) : (
-                            <p>Thank you for voting for {selectedToken.name}</p>
+                            <p>
+                                Thank you for voting for {selectedToken.name}!
+                                It may take upto 10 minutes for your vote(s) to
+                                reflect
+                            </p>
                         )
                     ) : (
                         <p>
