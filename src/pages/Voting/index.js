@@ -56,16 +56,14 @@ class Voting extends React.Component {
     }
 
     selectToken = selectedToken => {
-        // this.context.trackEvent({
-        //     category: 'Dialog',
-        //     action: 'Click',
-        //     name: `Vote - ${selectedToken.name}`,
-        // })
-        // TODO: Remove after test
-        throw new Error('Sentry Test Landing')
-        // this.setState({
-        //     selectedToken,
-        // })
+        this.context.trackEvent({
+            category: 'Dialog',
+            action: 'Click',
+            name: `Vote - ${selectedToken.name}`,
+        })
+        this.setState({
+            selectedToken,
+        })
     }
 
     render() {
