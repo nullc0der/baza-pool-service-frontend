@@ -6,6 +6,12 @@ import { MatomoContext } from 'context/Matomo'
 
 import { getPoolStat, getPools } from 'api/poolStat'
 
+import {
+    getReadableHashRateString,
+    getPoolPercentage,
+    getReadableCoins,
+} from 'utils/misc'
+
 import s from './Home.module.scss'
 
 class Home extends React.Component {
@@ -49,23 +55,6 @@ class Home extends React.Component {
         }
     }
 
-    getReadableHashRateString = hashrate => {
-        let i = 0
-        const byteUnits = [' H', ' KH', ' MH', ' GH', ' TH', ' PH']
-        while (hashrate > 1000) {
-            hashrate = hashrate / 1000
-            i++
-        }
-        return hashrate.toFixed(2) + byteUnits[i]
-    }
-
-    getPoolPercentage = poolStat => {
-        const netWorkHash =
-            poolStat.network.difficulty / poolStat.config.coinDifficultyTarget
-        const poolHash = poolStat.pool.hashrate
-        return Number((poolHash / netWorkHash) * 100).toFixed(2)
-    }
-
     renderOnePoolStat = (pool, i) => {
         const poolStat = this.state.poolsStat[pool.symbol]
         return (
@@ -95,7 +84,7 @@ class Home extends React.Component {
                                 </b>
                                 <span className="flex-1" />
                                 <span>
-                                    {this.getReadableHashRateString(
+                                    {getReadableHashRateString(
                                         poolStat.network.difficulty /
                                             poolStat.config.coinDifficultyTarget
                                     )}
@@ -109,7 +98,7 @@ class Home extends React.Component {
                                 </b>
                                 <span className="flex-1" />
                                 <span>
-                                    {this.getReadableHashRateString(
+                                    {getReadableHashRateString(
                                         poolStat.pool.hashrate
                                     )}
                                     /s
@@ -121,9 +110,7 @@ class Home extends React.Component {
                                     percentage:{' '}
                                 </b>
                                 <span className="flex-1" />
-                                <span>
-                                    {this.getPoolPercentage(poolStat)} %
-                                </span>
+                                <span>{getPoolPercentage(poolStat)} %</span>
                             </div>
                             <div className="d-flex mb-2">
                                 <b>
@@ -146,9 +133,10 @@ class Home extends React.Component {
                                 </b>
                                 <span className="flex-1" />
                                 <span>
-                                    {Number(
-                                        poolStat.network.reward / 1000000
-                                    ).toFixed(6)}
+                                    {getReadableCoins(
+                                        poolStat.network.reward,
+                                        1000000
+                                    )}
                                 </span>
                             </div>
                         </a>

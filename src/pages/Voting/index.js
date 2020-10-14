@@ -9,6 +9,8 @@ import { MatomoContext } from 'context/Matomo'
 
 import { getCurrentSession } from 'api/voting'
 
+import { getReadableCoins } from 'utils/misc'
+
 import VotingModal from './VotingModal'
 import s from './Voting.module.scss'
 
@@ -168,7 +170,12 @@ class Voting extends React.Component {
                                         <span
                                             className="mr-2"
                                             title="Total Votes">
-                                            {x.total_votes}
+                                            {x.amount_raised
+                                                ? getReadableCoins(
+                                                      x.amount_raised,
+                                                      1000000
+                                                  )
+                                                : 'N/A'}
                                         </span>
                                         <span className="flex-1" />
                                         {x.won_date && (
