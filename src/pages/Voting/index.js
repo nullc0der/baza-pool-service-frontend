@@ -129,12 +129,12 @@ class Voting extends React.Component {
                             </div>
                             <div className="tokens">
                                 <div className="token">
-                                    <span className="mr-2">Logo</span>
-                                    <span className="mr-2">Name</span>
-                                    <span className="mr-2">Symbol</span>
-                                    <span className="mr-2">Algo</span>
-                                    <span className="mr-2">Total Votes</span>
-                                    <span className="flex-1" />
+                                    <span>Logo</span>
+                                    <span>Name</span>
+                                    <span>Symbol</span>
+                                    <span>Algo</span>
+                                    <span>Total Votes</span>
+                                    <span className="flex-1 d-none d-lg-inline" />
                                     <span>Added Date</span>
                                 </div>
                                 {tokens.map((x, i) => (
@@ -142,19 +142,21 @@ class Voting extends React.Component {
                                         className="token"
                                         key={i}
                                         onClick={() => this.selectToken(x)}>
-                                        <img
-                                            src={
-                                                process.env
-                                                    .REACT_APP_DOCUMENT_ROOT +
-                                                x.logo
-                                            }
-                                            className="img-fluid mr-2"
-                                            style={{
-                                                width: '40px',
-                                            }}
-                                            alt="token logo"
-                                        />
-                                        <span className="mr-2">
+                                        <span>
+                                            <img
+                                                src={
+                                                    process.env
+                                                        .REACT_APP_DOCUMENT_ROOT +
+                                                    x.logo
+                                                }
+                                                className="img-fluid"
+                                                style={{
+                                                    width: '40px',
+                                                }}
+                                                alt="token logo"
+                                            />
+                                        </span>
+                                        <span>
                                             <a
                                                 href={x.homepage_url}
                                                 target="_blank"
@@ -165,11 +167,9 @@ class Voting extends React.Component {
                                                 {x.name}
                                             </a>
                                         </span>
-                                        <span className="mr-2">{x.symbol}</span>
-                                        <span className="mr-2">{x.algo}</span>
-                                        <span
-                                            className="mr-2"
-                                            title="Total Votes">
+                                        <span>{x.symbol}</span>
+                                        <span>{x.algo}</span>
+                                        <span>
                                             {x.amount_raised
                                                 ? getReadableCoins(
                                                       x.amount_raised,
@@ -177,7 +177,7 @@ class Voting extends React.Component {
                                                   )
                                                 : 'N/A'}
                                         </span>
-                                        <span className="flex-1" />
+                                        <span className="flex-1 d-none d-lg-inline" />
                                         {x.won_date && (
                                             <span>
                                                 {moment(x.won_date).format(

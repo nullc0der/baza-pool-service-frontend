@@ -38,6 +38,13 @@
             margin: 0.5rem 0;
             cursor: pointer;
             overflow-x: auto;
+            span {
+                flex: 0 0 150px;
+                margin-right: 0.5rem;
+                @include media-breakpoint-down(md) {
+                    flex: 0 0 80px;
+                }
+            }
         }
     }
 }
