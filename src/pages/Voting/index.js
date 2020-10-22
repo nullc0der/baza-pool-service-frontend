@@ -135,6 +135,8 @@ class Voting extends React.Component {
                                     <span>Algo</span>
                                     <span>Total Votes</span>
                                     <span className="flex-1 d-none d-lg-inline" />
+                                    <span>Won Status</span>
+                                    {/* <span>Won Date</span> */}
                                     <span>Added Date</span>
                                 </div>
                                 {tokens.map((x, i) => (
@@ -178,13 +180,18 @@ class Voting extends React.Component {
                                                 : 'N/A'}
                                         </span>
                                         <span className="flex-1 d-none d-lg-inline" />
-                                        {x.won_date && (
+                                        {x.has_won && (
+                                            <span className="fas fa-trophy" />
+                                        )}
+                                        {/* {x.won_date ? (
                                             <span>
                                                 {moment(x.won_date).format(
                                                     'DD/MM/YYYY'
                                                 )}
                                             </span>
-                                        )}
+                                        ) : (
+                                            <span> N/A</span>
+                                        )} */}
                                         {x.added_date && (
                                             <span>
                                                 {moment(x.added_date).format(
