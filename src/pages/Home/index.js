@@ -69,7 +69,7 @@ class Home extends React.Component {
                     )}
                     <h6>{pool.symbol}</h6>
                     <div className="flex-1" />
-                    <span>{pool.last_price} USDT</span>
+                    {pool.last_price && <span>{pool.last_price} USDT</span>}
                 </div>
                 <div className="pool-info">
                     {!isEmpty(poolStat) && (
@@ -133,10 +133,15 @@ class Home extends React.Component {
                                 </b>
                                 <span className="flex-1" />
                                 <span>
-                                    {getReadableCoins(
-                                        poolStat.network.reward,
-                                        1000000
-                                    )}
+                                    {pool.symbol !== 'XMR'
+                                        ? getReadableCoins(
+                                              poolStat.network.reward,
+                                              poolStat.config.coinUnits
+                                          )
+                                        : getReadableCoins(
+                                              poolStat.lastblock.reward,
+                                              poolStat.config.coinUnits
+                                          )}
                                 </span>
                             </div>
                         </a>
